@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "github.pitbox46.chunkprofiler.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "chunkprofiler.refmap.json",
+  "mixins": [
+    "WorldMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
