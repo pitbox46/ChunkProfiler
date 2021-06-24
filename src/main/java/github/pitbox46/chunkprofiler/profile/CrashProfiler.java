@@ -20,8 +20,8 @@ public class CrashProfiler implements Runnable{
 
     public volatile Object currentObject;
     public volatile boolean running = true;
-    private boolean active = false;
-    private long start;
+    private volatile boolean active = false;
+    private volatile long start;
 
     public synchronized void start(Object object) {
         this.currentObject = object;
@@ -29,9 +29,10 @@ public class CrashProfiler implements Runnable{
         start = System.nanoTime();
     }
 
-    public synchronized void stop(Object object) {
-        if(active && object == currentObject) {
+    public synchronized void stop() {
+        if(active) {
             this.active = false;
+            currentObject = null;
         }
     }
 
@@ -41,7 +42,7 @@ public class CrashProfiler implements Runnable{
             synchronized (this) {
                 while(!running) {}
                 try {
-                    wait(1000);
+                    wait(4);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -52,7 +53,7 @@ public class CrashProfiler implements Runnable{
                     stringBuilder
                             .append("Crash due to tick timeout")
                             .append("\n\n")
-                            .append("Details:")
+                            .append("Details:") 
                             .append("\n");
                     if(currentObject instanceof TileEntity) {
                         TileEntity object = (TileEntity) currentObject;
@@ -85,6 +86,7 @@ public class CrashProfiler implements Runnable{
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    this.stop();
                 }
             }
         }

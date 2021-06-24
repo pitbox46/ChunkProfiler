@@ -28,7 +28,7 @@ public class Timer<T> {
     }
 
     public void startTime(T object, long tick) {
-        if(enabled) {
+        if(enabled && object != null) {
             timings.putIfAbsent(object, new Timing());
             timings.get(object).startTiming(tick);
         }

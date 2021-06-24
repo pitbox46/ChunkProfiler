@@ -33,8 +33,8 @@ import java.util.concurrent.TimeUnit;
 public class ChunkProfilerMod {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static volatile CrashProfiler PROFILER = new CrashProfiler();
-    private static final Thread PROFILER_THREAD = new Thread(PROFILER, "Profiler thread");
+    public static final CrashProfiler PROFILER = new CrashProfiler();
+    public static final Thread PROFILER_THREAD = new Thread(PROFILER, "Profiler thread");
 
     public static File gameDir;
     public static File lastProfile;

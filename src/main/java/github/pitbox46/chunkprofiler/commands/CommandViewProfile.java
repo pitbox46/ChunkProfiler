@@ -75,6 +75,7 @@ public class CommandViewProfile implements Command<CommandSource> {
         for(ChunkProfile.Columns columns: ChunkProfile.Columns.values()) {
             if(columns == ChunkProfile.Columns.DIMENSION
                     || columns == ChunkProfile.Columns.BLOCK_POS
+                    || columns == ChunkProfile.Columns.CHUNK_POS
                     || columns == ChunkProfile.Columns.REGION
                     || columns.columnName.equals(columnName)) {
                 continue;
@@ -101,34 +102,39 @@ public class CommandViewProfile implements Command<CommandSource> {
         IFormattableTextComponent message = new StringTextComponent("");
         try {
             for (int i = 0; i < sortedList.size() && i < 10/* Display max of 10 entries */; i++) {
-                BlockPos tpPos = ChunkProfile.parseBlockPos(sortedList.get(i).get(0));
+                BlockPos tpPos = ChunkProfile.parseBlockPos(sortedList.get(i).get(1));
                 IFormattableTextComponent dimensionText =
-                        new StringTextComponent(sortedList.get(i).get(2))
+                        new StringTextComponent(sortedList.get(i).get(3))
                                 .mergeStyle(TextFormatting.GREEN)
                                 .appendSibling(delimiter);
 
-                double quantity = Double.parseDouble(sortedList.get(i).get(3));
+                double quantity = Double.parseDouble(sortedList.get(i).get(4));
                 IFormattableTextComponent quantityText =
                         new StringTextComponent(columnName  + " " + Math.round(quantity * 10000) / 10000D)
                                 .mergeStyle(TextFormatting.BLUE)
                                 .appendSibling(delimiter);
 
                 IFormattableTextComponent regionText =
-                        new StringTextComponent(sortedList.get(i).get(1))
+                        new StringTextComponent(sortedList.get(i).get(2))
                                 .mergeStyle(TextFormatting.GREEN)
+                                .appendSibling(delimiter);
+
+                IFormattableTextComponent chunkPosText =
+                        new StringTextComponent(sortedList.get(i).get(0))
+                                .mergeStyle(TextFormatting.BLUE)
                                 .appendSibling(delimiter);
 
                 IFormattableTextComponent teleportText =
                         new StringTextComponent("[teleport]")
                                 .mergeStyle(TextFormatting.WHITE);
                 //TP on click
-                if(player != null && sortedList.get(i).get(2).equals(player.getEntityWorld().getDimensionKey().getLocation().toString())) {
+                if(player != null && sortedList.get(i).get(3).equals(player.getEntityWorld().getDimensionKey().getLocation().toString())) {
                     teleportText.setStyle(teleportText.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp @s " + tpPos.getX() + " " + tpPos.getY() + " " + tpPos.getZ())));
                 } else {
                     teleportText.mergeStyle(TextFormatting.STRIKETHROUGH);
                 }
 
-                message.appendSibling(dimensionText).appendSibling(quantityText).appendSibling(regionText).appendSibling(teleportText);
+                message.appendSibling(dimensionText).appendSibling(quantityText).appendSibling(regionText).appendSibling(chunkPosText).appendSibling(teleportText);
                 if (i != sortedList.size() - 1) {
                     message.appendString("\n");
                 }
