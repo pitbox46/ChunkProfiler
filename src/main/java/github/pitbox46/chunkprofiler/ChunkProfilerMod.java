@@ -27,7 +27,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
 
 @Mod("chunkprofiler")
 public class ChunkProfilerMod {

@@ -1,7 +1,5 @@
 package github.pitbox46.chunkprofiler.mixin;
 
-import github.pitbox46.chunkprofiler.ChunkProfilerMod;
-import github.pitbox46.chunkprofiler.profile.CrashProfiler;
 import github.pitbox46.chunkprofiler.profile.Timer;
 import net.minecraft.entity.Entity;
 import net.minecraft.profiler.IProfiler;
@@ -15,11 +13,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.*;
+import java.util.Iterator;
 import java.util.function.Consumer;
 
 import static github.pitbox46.chunkprofiler.ChunkProfilerMod.PROFILER;
-import static github.pitbox46.chunkprofiler.ChunkProfilerMod.PROFILER_THREAD;
 
 @Mixin(World.class)
 public abstract class WorldMixin {

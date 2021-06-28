@@ -36,6 +36,9 @@ public class Timer<T> {
 
     public void endTime(T object) {
         if(enabled) {
+            if(!timings.containsKey(object)) {
+                LOGGER.warn("Object can't stop time because it didn't start\n{}", object);
+            }
             timings.get(object).endTiming();
         }
     }
